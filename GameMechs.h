@@ -9,7 +9,6 @@
 
 using namespace std;
 
-
 class GameMechs
 {
     // Construct the remaining declaration from the project manual.
@@ -43,7 +42,6 @@ class GameMechs
 
         int getBoardSizeX();
         int getBoardSizeY();
-        int getScore(); // ADDED
       
 
 };

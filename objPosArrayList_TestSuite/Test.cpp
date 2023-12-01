@@ -10,7 +10,6 @@
 //
 // You must deploy exception throwing for all out-of-bound accesses.
 
-
 // Test Case 1 - Constructor Tester
 // - Will require you to implement getSize() and getElement() methods.
 void testConstructor()
@@ -38,7 +37,6 @@ void testConstructor()
 	// The destructor will be called automatically for stack-allocated objects
 }
 
-
 // Test Case 2a - insertHead 1 Element 
 // - Will require you to implement getHeadElement(), getTailElement(), and getElement() methods.
 void testInsertHead_1Element()
@@ -65,13 +63,11 @@ void testInsertHead_1Element()
 
 	ASSERT_EQUAL(expectedCheck, actualCheck);
 
-
 	// Next, check whether the tail element is also the head element in a list of 1 element.
 	thisList.getTailElement(currentPos);
 	actualCheck = samplePos.isPosEqual(&currentPos);
 
 	ASSERT_EQUAL(expectedCheck, actualCheck);
-
 
 	// Finally, chech whether the element at index = 0 is also the head element in a list of 1 element
 	// Then check whether the head element is what we have inserted.
@@ -132,8 +128,6 @@ void testInsertHead_5Element()
 	// The destructor will be called automatically for stack-allocated objects
 }
 
-
-
 // Test Case 3a - insertTail 1 Element 
 void testInsertTail_1Element()
 {
@@ -159,13 +153,11 @@ void testInsertTail_1Element()
 
 	ASSERT_EQUAL(expectedCheck, actualCheck);
 
-
 	// Next, check whether the tail element is also the head element in a list of 1 element.
 	thisList.getTailElement(currentPos);
 	actualCheck = samplePos.isPosEqual(&currentPos);
 
 	ASSERT_EQUAL(expectedCheck, actualCheck);
-
 
 	// Finally, chech whether the element at index = 0 is also the head element in a list of 1 element
 	// Then check whether the head element is what we have inserted.
@@ -224,7 +216,6 @@ void testInsertTail_5Element()
 
 	// The destructor will be called automatically for stack-allocated objects
 }
-
 
 // Test Case 4a - removeHead from 1 Element List
 void testRemoveHead_1Element()
@@ -341,7 +332,7 @@ void testRemoveTail_5Element()
 
 	ASSERT_EQUAL(expectedCheck, actualCheck);
 
-	// Next, chech the body elements at index 1, 2, and 3.
+	// Next, check the body elements at index 1, 2, and 3.
 	for(int i = 0; i < actualSize - 1; i++)
 	{
 		thisList.getElement(currentPos, i);
@@ -352,9 +343,6 @@ void testRemoveTail_5Element()
 
 	// The destructor will be called automatically for stack-allocated objects
 }
-
-
-
 
 bool runAllTests(int argc, char const *argv[]) {
 	cute::suite s;
@@ -369,9 +357,6 @@ bool runAllTests(int argc, char const *argv[]) {
 	s.push_back(CUTE(testRemoveTail_1Element));
 	s.push_back(CUTE(testRemoveTail_5Element));
 	
-
-
-
 	//TODO add your test here
 
 	cute::xml_file_opener xmlfile(argc, argv);

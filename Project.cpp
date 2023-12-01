@@ -1,6 +1,8 @@
 #include <iostream>
 #include "MacUILib.h"
 #include "objPos.h"
+#include "GameMechs.h"
+#include "Player.h"
 
 
 using namespace std;
@@ -79,7 +81,7 @@ void DrawScreen(void)
             }
             else
             {
-                MacUILib_printf("%c", " ");   
+                MacUILib_printf("%c", 32);   
             }
         }
         MacUILib_printf("\n");   

@@ -27,24 +27,31 @@ void Player::updatePlayerDir()
 
     switch (input)
     {
+        case 27:  // exit
+            mainGameMechsRef->setExitTrue();
+            break;
+        case 'W':
         case 'w':
             if (myDir != UP && myDir != DOWN)
             {
                 myDir = UP;
             }
             break;
+        case 'S':
         case 's':
             if (myDir != UP && myDir != DOWN)
             {
                 myDir = DOWN;
             }
             break;
+        case 'A':
         case 'a':
             if (myDir != LEFT && myDir != RIGHT)
             {
                 myDir = LEFT;
             }
             break;
+        case 'D':
         case 'd':
             if (myDir != LEFT && myDir != RIGHT)
             {

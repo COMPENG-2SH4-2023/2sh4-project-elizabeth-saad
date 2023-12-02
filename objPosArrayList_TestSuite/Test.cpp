@@ -344,6 +344,11 @@ void testRemoveTail_5Element()
 	// The destructor will be called automatically for stack-allocated objects
 }
 
+void test_EdgeCase()
+{
+	
+}
+
 bool runAllTests(int argc, char const *argv[]) {
 	cute::suite s;
 	
@@ -356,8 +361,9 @@ bool runAllTests(int argc, char const *argv[]) {
 	s.push_back(CUTE(testRemoveHead_5Element));
 	s.push_back(CUTE(testRemoveTail_1Element));
 	s.push_back(CUTE(testRemoveTail_5Element));
-	
+
 	//TODO add your test here
+	// s.push_back(CUTE(test_EdgeCase));
 
 	cute::xml_file_opener xmlfile(argc, argv);
 	cute::xml_listener<cute::ide_listener<> > lis(xmlfile.out);

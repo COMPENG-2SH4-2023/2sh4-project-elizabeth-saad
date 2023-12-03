@@ -32,6 +32,7 @@ class GameMechs
         GameMechs(int boardX, int boardY);
         
         bool getExitFlagStatus();
+        bool getLoseFlagStatus(); // ADDED
         void setExitTrue();
 
         bool getLoseFlagStatus();

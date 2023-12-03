@@ -111,6 +111,9 @@ void DrawScreen(void)
             {
                 MacUILib_printf("%c", '#');
             }
+            else if (j == tempFoodPos.x && i == tempFoodPos.y) {
+                MacUILib_printf("%c", tempFoodPos.symbol);
+            }
             // else if (j == tempPos.x && i == tempPos.y)
             // {
             //     MacUILib_printf("%c", tempPos.symbol);

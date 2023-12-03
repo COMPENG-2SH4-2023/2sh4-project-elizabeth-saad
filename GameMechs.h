@@ -23,6 +23,8 @@ class GameMechs
 
         objPos foodPos;
 
+        objPos foodPos;
+
         bool loseFlag;
         int score;
         

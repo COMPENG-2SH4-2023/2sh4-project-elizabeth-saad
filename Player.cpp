@@ -83,6 +83,9 @@ void Player::movePlayer()
     // PPA3 Finite State Machine logic
     objPos currHead;
     playerPosList->getHeadElement(currHead);
+
+    objPos food;
+    mainGameMechsRef->getFoodPos(food);
     
     int boardSizeX = mainGameMechsRef->getBoardSizeX();
     int boardSizeY = mainGameMechsRef->getBoardSizeY();
@@ -134,6 +137,14 @@ void Player::movePlayer()
             break;        
     }
 
-    playerPosList->insertHead(currHead);
-    playerPosList->removeTail();
+    if (currHead.x == food.x && currHead.y == food.y) {
+        playerPosList->insertHead(currHead);
+        mainGameMechsRef->incrementScore();
+        mainGameMechsRef->generateFood(playerPosList);
+    }
+    else {
+        playerPosList->insertHead(currHead);
+        playerPosList->removeTail();
+    }
+
 }

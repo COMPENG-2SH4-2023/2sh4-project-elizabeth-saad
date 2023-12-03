@@ -45,6 +45,11 @@ void Initialize(void)
     myGM = new GameMechs(26, 13);
     myPlayer = new Player(myGM);
 
+    // FOOD INITIALIZATION
+    objPosArrayList* tempPos = myPlayer->getPlayerPos();
+    //myPlayer->getPlayerPos(tempPos);
+    myGM->generateFood(tempPos);
+
     // game = new GameMechs();
 
     // exitFlag = false;
@@ -75,6 +80,9 @@ void DrawScreen(void)
     objPosArrayList* playerBody = myPlayer->getPlayerPos();
     objPos tempBody;
 
+    objPos tempFoodPos;
+    myGM->getFoodPos(tempFoodPos);
+
     for (int i = 0; i < myGM->getBoardSizeY(); i++)
     {
         for (int j = 0; j < myGM->getBoardSizeX(); j++)
@@ -84,7 +92,7 @@ void DrawScreen(void)
             for (int k = 0; k < playerBody->getSize(); k++)
             {
                 playerBody->getElement(tempBody, k);
-                if (tempBody.x == j && tempBody.y == i)
+                if (tempBody.x == j && tempBody.y == i && i < (myGM->getBoardSizeY() -1) && j != 0 && j < (myGM->getBoardSizeX() - 1))
                 {
                     MacUILib_printf("%c", tempBody.symbol);
                     drawn = true;
@@ -100,6 +108,9 @@ void DrawScreen(void)
             if (i == 0 || i == myGM->getBoardSizeY() - 1 || j == 0 || j == myGM->getBoardSizeX() - 1)
             {
                 MacUILib_printf("%c", '#');
+            }
+            else if (j == tempFoodPos.x && i == tempFoodPos.y) {
+                MacUILib_printf("%c", tempFoodPos.symbol);
             }
             // else if (j == tempPos.x && i == tempPos.y)
             // {

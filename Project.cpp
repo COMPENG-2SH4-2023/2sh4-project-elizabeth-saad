@@ -3,8 +3,8 @@
 #include "objPos.h"
 #include "GameMechs.h"
 #include "Player.h"
+#include "Food.h"
 #include "objPosArrayList.h"
-
 
 using namespace std;
 
@@ -14,7 +14,7 @@ using namespace std;
 
 GameMechs* myGM;
 Player* myPlayer;
-GameMechs* game;
+Food* myFood;
 
 void Initialize(void);
 void GetInput(void);
@@ -43,10 +43,15 @@ void Initialize(void)
     MacUILib_init();
     MacUILib_clearScreen();
 
-    myGM = new GameMechs(26, 13);
-    myPlayer = new Player(myGM);
+    myGM = new GameMechs(30, 15);
+    myFood = new Food(myGM);
+    myPlayer = new Player(myGM, myFood);
 
-    // game = new GameMechs();
+    objPosArrayList* tempPos = myPlayer->getPlayerPos();
+    // myPlayer->getPlayerPos(tempPos);
+
+    myFood->generateFood(myPlayer->getPlayerPos());
+    // myGM->generateFood(tempPos);
 
     // exitFlag = false;
 }
@@ -76,6 +81,10 @@ void DrawScreen(void)
     objPosArrayList* playerBody = myPlayer->getPlayerPos();
     objPos tempBody;
 
+    objPos tempFoodPos;
+    myFood->getFoodPos(tempFoodPos);
+    // myGM->getFoodPos(tempFoodPos);
+
     for (int i = 0; i < myGM->getBoardSizeY(); i++)
     {
         for (int j = 0; j < myGM->getBoardSizeX(); j++)
@@ -85,7 +94,7 @@ void DrawScreen(void)
             for (int k = 0; k < playerBody->getSize(); k++)
             {
                 playerBody->getElement(tempBody, k);
-                if (tempBody.x == j && tempBody.y == i)
+                if (tempBody.x == j && tempBody.y == i && i < (myGM->getBoardSizeY() - 1) && j != 0 && j < (myGM->getBoardSizeX() - 1))
                 {
                     MacUILib_printf("%c", tempBody.symbol);
                     drawn = true;
@@ -106,6 +115,10 @@ void DrawScreen(void)
             // {
             //     MacUILib_printf("%c", tempPos.symbol);
             // }
+            else if (j == tempFoodPos.x && i == tempFoodPos.y)
+            {
+                MacUILib_printf("%c", tempFoodPos.symbol);
+            }
             else
             {
                 MacUILib_printf("%c", 32);   
@@ -116,15 +129,6 @@ void DrawScreen(void)
 
     // MacUILib_printf("Score: %d\n Player Pos: <%d, %d>\n", myGM->getScore(), tempPos.x, tempPos.y);
     MacUILib_printf("Score: %d\n", myGM->getScore());
-
-    // For debugging (delete later)
-    MacUILib_printf("Player Positions:\n");
-    for (int a = 0; a < playerBody->getSize(); a++)
-    {
-        playerBody->getElement(tempBody, a);
-        MacUILib_printf("<%d, %d> ", tempBody.x, tempBody.y);
-    }
-
 }
 
 void LoopDelay(void)
@@ -133,11 +137,14 @@ void LoopDelay(void)
 }
 
 void CleanUp(void)
-{    
-    MacUILib_clearScreen();    
+{        
+    MacUILib_clearScreen();   
+
+    myGM->printMessage();
+    
     MacUILib_uninit();
 
-    // delete game;
     delete myGM;
+    delete myFood;
     delete myPlayer;
 }

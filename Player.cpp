@@ -1,23 +1,19 @@
 #include "Player.h"
 
-Player::Player(GameMechs* thisGMRef)
+Player::Player(GameMechs* thisGMRef, Food* thisFood)
 {
     mainGameMechsRef = thisGMRef;
     myDir = STOP;
+    myFood = thisFood;
 
     // more actions to be included
+
     // playerPos.setObjPos(mainGameMechsRef->getBoardSizeX() / 2, mainGameMechsRef->getBoardSizeY() / 2, '@');
 
     objPos tempPos;
     tempPos.setObjPos(mainGameMechsRef->getBoardSizeX() / 2, mainGameMechsRef->getBoardSizeY() / 2, '@');
-    
-    playerPosList = new objPosArrayList();
-    playerPosList->insertHead(tempPos);
 
-    // For debugging (delete later)
-    playerPosList->insertHead(tempPos);
-    playerPosList->insertHead(tempPos);
-    playerPosList->insertHead(tempPos);
+    playerPosList = new objPosArrayList();
     playerPosList->insertHead(tempPos);
 }
 
@@ -31,6 +27,7 @@ Player::~Player()
 objPosArrayList* Player::getPlayerPos()
 {
     // return the reference to the playerPos arrray list
+    
     // returnPos.setObjPos(playerPos.x, playerPos.y, playerPos.symbol);
     return playerPosList;
 }
@@ -42,7 +39,7 @@ void Player::updatePlayerDir()
 
     switch (input)
     {
-        case 27:  // exit
+        case ' ':
             mainGameMechsRef->setExitTrue();
             break;
         case 'W':
@@ -78,11 +75,33 @@ void Player::updatePlayerDir()
     }
 }
 
+bool Player::checkSelfCollision()
+{
+    objPos currHead;
+    playerPosList->getHeadElement(currHead);
+    objPos tempPos;
+
+    for (int i = 1; i < playerPosList->getSize(); i++)
+    {
+        playerPosList->getElement(tempPos, i);
+        
+        if (currHead.isPosEqual(&tempPos))
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 void Player::movePlayer()
 {
     // PPA3 Finite State Machine logic
     objPos currHead;
     playerPosList->getHeadElement(currHead);
+
+    objPos food;
+    myFood->getFoodPos(food);
     
     int boardSizeX = mainGameMechsRef->getBoardSizeX();
     int boardSizeY = mainGameMechsRef->getBoardSizeY();
@@ -134,6 +153,24 @@ void Player::movePlayer()
             break;        
     }
 
-    playerPosList->insertHead(currHead);
-    playerPosList->removeTail();
+    // playerPosList->insertHead(currHead);
+    // playerPosList->removeTail();
+
+    if (food.isPosEqual(&currHead)) 
+    {
+        playerPosList->insertHead(currHead);
+        mainGameMechsRef->incrementScore();
+        myFood->generateFood(playerPosList);
+    }
+    else
+    {
+        playerPosList->insertHead(currHead);
+        playerPosList->removeTail();
+    }
+
+    if (checkSelfCollision())
+    {
+        mainGameMechsRef->setLoseFlag();
+        mainGameMechsRef->setExitTrue();
+    }
 }

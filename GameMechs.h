@@ -30,8 +30,8 @@ class GameMechs
         int boardSizeY;
 
     public:
-        GameMechs();
-        GameMechs(int boardX, int boardY);
+        GameMechs(); // DEFAULT CONSTRUCTOR
+        GameMechs(int boardX, int boardY); // CONSTRUCTOR WITH CUSTOMIZABLE BOARDER
         
         bool getExitFlagStatus();
         void setExitTrue();
@@ -43,17 +43,14 @@ class GameMechs
         void setInput(char this_input);
         void clearInput();
 
-        void incrementScore(int num);
+        void incrementScore(int num); // TAKES IN AMOUNT OF POINTS TO BE ADDED DEPENDING ON THE FOOD EATEN
 
         int getBoardSizeX();
         int getBoardSizeY();
 
         int getScore();
 
-        // void generateFood(objPosArrayList* blockOff);
-        // void getFoodPos(objPos &returnPos);
-
-        void printMessage();
+        void printMessage(); // PRINTS END OF GAME MESSAGES
 };
 
 #endif

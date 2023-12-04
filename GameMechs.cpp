@@ -1,17 +1,17 @@
 #include "GameMechs.h"
 #include "MacUILib.h"
 
-GameMechs::GameMechs()
+GameMechs::GameMechs() // DEFAULT INITIALIZER
 {
-    input = 0;
-    exitFlag = false;
-    loseFlag = false;
-    boardSizeX = 30;
-    boardSizeY = 15;
-    score = 0;
+    input = 0; // NO INPUT
+    exitFlag = false; // DO NOT EXIT
+    loseFlag = false; // HAS NOT LOST
+    boardSizeX = 30; // BOARDER WIDTH OF 30
+    boardSizeY = 15; // BOARDER LENGTH OF 15
+    score = 0; // SCORE IS RESET
 }
 
-GameMechs::GameMechs(int boardX, int boardY)
+GameMechs::GameMechs(int boardX, int boardY) // SIMILAR TO DEFAULT CONSTRUCTOR BUT ALLOWS BOARDER SIZE TO BE CUSTOMIZED BY PLAYER / IN MAIN
 {
     input = 0;
     exitFlag = false;
@@ -21,61 +21,55 @@ GameMechs::GameMechs(int boardX, int boardY)
     score = 0;
 }
 
-// do you need a destructor?
+// NO DECONSTRUCTOR NEEDED AS NOTHING IS CREATED ON THE HEAP
 
-bool GameMechs::getExitFlagStatus()
+bool GameMechs::getExitFlagStatus() // RETURNS EXITFLAG STATUS AS TRUE OR FALSE
 {
     return exitFlag;
 }
 
-bool GameMechs::getLoseFlagStatus()
+bool GameMechs::getLoseFlagStatus() // RETURNS LOSEFLAG AS TRUE OR FALSE
 {
     return loseFlag;
 }
 
-char GameMechs::getInput()
+char GameMechs::getInput() // GETS PLAYER INPUT AND RETURNS IT
 {
     if (MacUILib_hasChar())
     {
         input = MacUILib_getChar();
     }
 
-    // if (input == 27)
-    // {
-    //     exitFlag = true;
-    // }
-
     return (input);
 }
 
-int GameMechs::getBoardSizeX()
+int GameMechs::getBoardSizeX() // RETURNS BOARDER WIDTH
 {
     return boardSizeX;
 }
 
-int GameMechs::getBoardSizeY()
+int GameMechs::getBoardSizeY() // RETURNS BOARDER LENGTH
 {
     return boardSizeY;
 }
 
-int GameMechs::getScore()
+int GameMechs::getScore() // RETURNS PLAYER SCORE
 {
     return score;
 }
 
-void GameMechs::setExitTrue()
+void GameMechs::setExitTrue() // SETS EXIT FLAG AS TRUE - ACTIVATED WHEN ESC BUTTON IS PRESSED
 {
     exitFlag = true;
 }
 
-void GameMechs::setLoseFlag()
+void GameMechs::setLoseFlag() // SETS LOSE FLAGE AS TRUE WHEN SNAKE EATS ITSELF
 {
     loseFlag = true;
 }
 
-void GameMechs::setInput(char this_input)
+void GameMechs::setInput(char this_input) // SETS THE PLAYER INPUT
 {
-    // input = this_input;
 
     if (MacUILib_hasChar() == 1)
     {
@@ -83,17 +77,17 @@ void GameMechs::setInput(char this_input)
     }
 }
 
-void GameMechs::clearInput()
+void GameMechs::clearInput() // CLEARS INPUT TO PREP FOR THE NEXT ONE
 {
     input = 0;
 }
 
-void GameMechs::incrementScore(int num)
+void GameMechs::incrementScore(int num) // INCREASES SCORE BY SET AMOUNT DEPENDING ON FOOD TYPE
 {
     score += num;
 }
 
-void GameMechs::printMessage()
+void GameMechs::printMessage() // END OF GAME MESSAGES DEPENDING ON HOW THE GAME IS EXITED
 {
     if (loseFlag == false && exitFlag== true)
     {
@@ -104,51 +98,3 @@ void GameMechs::printMessage()
         MacUILib_printf("You have lost the game. Game Over!");
     }
 }
-
-// void GameMechs::generateFood(objPosArrayList* blockOff)
-// {
-//     int x_rand;
-//     int y_rand;
-//     bool same = false;
-
-//     int length = blockOff->getSize();
-//     int count = 0;
-
-//     objPos snake;
-
-//     /*
-//     while (count < length) {
-//         blockOff->getElement(snake, i);
-//         x_rand = (rand() % (boardSizeX - 2)) + 1; 
-//         y_rand = (rand() % (boardSizeY - 2)) + 1;
-//         if (snake.x == x_rand && snake.y == y_rand) {
-//             same = true;
-//         }
-//         else {
-            
-//         }
-//     }
-//     */
-
-//     for (int i = 0; i < length; i ++)
-//     {
-//         blockOff->getElement(snake, i);
-
-//         do { // GENERATE NEW FOOD POSITION UNTIL NOT SAME AS PLAYER POSITION
-
-//             x_rand = (rand() % (boardSizeX - 2)) + 1; 
-//             y_rand = (rand() % (boardSizeY - 2)) + 1;
-
-//         } while ((x_rand == snake.x) && (y_rand == snake.y));
-
-//         break;
-//     }
-
-//     foodPos.x = x_rand;
-//     foodPos.y = y_rand;
-// }
-
-// void GameMechs::getFoodPos(objPos &returnPos)
-// {
-//     returnPos.setObjPos(foodPos.x, foodPos.y, foodPos.symbol);
-// }

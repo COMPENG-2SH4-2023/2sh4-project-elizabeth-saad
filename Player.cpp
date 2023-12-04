@@ -1,47 +1,44 @@
 #include "Player.h"
 
-Player::Player(GameMechs* thisGMRef, Food* thisFood)
+Player::Player(GameMechs* thisGMRef, Food* thisFood) // DEFAULT CONSTRUCTOR TAKING REFERENCES TO THE GAME MECHS AND FOOD CLASSES
 {
     mainGameMechsRef = thisGMRef;
-    myDir = STOP;
+    myDir = STOP; // KEEPS PLAYER STILL UNITL DIRECTION INPUT IS RECIEVED
     myFood = thisFood;
 
     // more actions to be included
 
-    // playerPos.setObjPos(mainGameMechsRef->getBoardSizeX() / 2, mainGameMechsRef->getBoardSizeY() / 2, '@');
-
     objPos tempPos;
-    tempPos.setObjPos(mainGameMechsRef->getBoardSizeX() / 2, mainGameMechsRef->getBoardSizeY() / 2, '@');
+    tempPos.setObjPos(mainGameMechsRef->getBoardSizeX() / 2, mainGameMechsRef->getBoardSizeY() / 2, '@'); // SETS PLAYER TO START IN THE CENTER OF THE GAME BOARDER
 
-    playerPosList = new objPosArrayList();
-    playerPosList->insertHead(tempPos);
+    playerPosList = new objPosArrayList(); // CREATES INSTANCE ON THE HEAP
+    playerPosList->insertHead(tempPos); // PLACES PLAYER
 }
 
-Player::~Player()
+Player::~Player() // DESTRUCTOR FOR THE MEMBER CREATED ON THE HEAP IN THE CONSTRUCTOR
 {
     // delete any heap members here
     delete playerPosList;
 }
 
-// void Player::getPlayerPos(objPos &returnPos)
-objPosArrayList* Player::getPlayerPos()
+objPosArrayList* Player::getPlayerPos() // GETS THE PLAYER POSITION
 {
     // return the reference to the playerPos arrray list
     
-    // returnPos.setObjPos(playerPos.x, playerPos.y, playerPos.symbol);
     return playerPosList;
 }
 
-void Player::updatePlayerDir()
+void Player::updatePlayerDir() // UPDATES THE DIRECTION OF THE PLAYER BASED ON INPUT
 {
     // PPA3 input processing logic
     char input = mainGameMechsRef->getInput();
 
     switch (input)
     {
-        case ' ':
+        case 27: // EXIT KEY IS ESC
             mainGameMechsRef->setExitTrue();
             break;
+        // UP
         case 'W':
         case 'w':
             if (myDir != UP && myDir != DOWN)
@@ -49,6 +46,7 @@ void Player::updatePlayerDir()
                 myDir = UP;
             }
             break;
+        // DOWN
         case 'S':
         case 's':
             if (myDir != UP && myDir != DOWN)
@@ -56,6 +54,7 @@ void Player::updatePlayerDir()
                 myDir = DOWN;
             }
             break;
+        // LEFT
         case 'A':
         case 'a':
             if (myDir != LEFT && myDir != RIGHT)
@@ -63,6 +62,7 @@ void Player::updatePlayerDir()
                 myDir = LEFT;
             }
             break;
+        // RIGHT
         case 'D':
         case 'd':
             if (myDir != LEFT && myDir != RIGHT)
@@ -75,26 +75,27 @@ void Player::updatePlayerDir()
     }
 }
 
-bool Player::checkSelfCollision()
+bool Player::checkSelfCollision() // CHECKS IF SNAKE HAS EATEN ITSELF
 {
     objPos currHead;
-    playerPosList->getHeadElement(currHead);
+    playerPosList->getHeadElement(currHead); // GETS POSITION OF THE SNAKE HEAD
     objPos tempPos;
 
+    // CHECKS IF SNAKE HEAD IS THE SAME POSITION OF OTHER PARTS OF BODY
     for (int i = 1; i < playerPosList->getSize(); i++)
     {
         playerPosList->getElement(tempPos, i);
         
-        if (currHead.isPosEqual(&tempPos))
+        if (currHead.isPosEqual(&tempPos)) // IF THE SNAKES HEAD COLLIDES WITH BODY RETURNS TRUE
         {
             return true;
         }
     }
 
-    return false;
+    return false; // IF THE SNKAE HEAD HASNT COLLIDED WITH BODY CONTINUE GAME / RETURN FALSE
 }
 
-bool Player::checkSpecialFood(objPos currHead)
+bool Player::checkSpecialFood(objPos currHead) // CHECKS IF SNAKE HAS EATEN SPECIAL FOOD
 {
     objPosArrayList* foodBucket = myFood->getFoodPos();
     objPos specialFoodPos;
@@ -103,16 +104,16 @@ bool Player::checkSpecialFood(objPos currHead)
     {
         foodBucket->getElement(specialFoodPos, i);
         
-        if (specialFoodPos.isPosEqual(&currHead) && specialFoodPos.symbol == 'S')
+        if (specialFoodPos.isPosEqual(&currHead) && specialFoodPos.symbol == '%') // IF THE FOOD IS SPECIAL RETURN TRUE
         {
             return true;
         }
     }
 
-    return false;
+    return false; // RETURNS FALSE IF NOT
 }
 
-bool Player::checkNormalFood(objPos currHead)
+bool Player::checkNormalFood(objPos currHead) // CHECKS IF SNAKE HAS EATEN NORMAL FOOD
 {
     objPosArrayList* foodBucket = myFood->getFoodPos();
     objPos specialFoodPos;
@@ -121,67 +122,53 @@ bool Player::checkNormalFood(objPos currHead)
     {
         foodBucket->getElement(specialFoodPos, i);
         
-        if (specialFoodPos.isPosEqual(&currHead) && specialFoodPos.symbol == 'X')
+        if (specialFoodPos.isPosEqual(&currHead) && specialFoodPos.symbol == 'F') // IF THE FOOD IS NORMAL RETURN TRUE
         {
             return true;
         }
     }
 
-    return false;
+    return false; // IF NOT NORMAL FOOD RETURN FLASE
 }
 
-void Player::movePlayer()
+void Player::movePlayer() // MOVES SNAKE
 {
     // PPA3 Finite State Machine logic
     objPos currHead;
     playerPosList->getHeadElement(currHead);
-
-    // objPos food;
-    // myFood->getFoodPos(food);
     
     int boardSizeX = mainGameMechsRef->getBoardSizeX();
     int boardSizeY = mainGameMechsRef->getBoardSizeY();
 
+    // CHECKS NEXT HEAD POSITION
     switch (myDir)
     {
         case UP:
             currHead.y--;
-            // playerPos.y--;
             if (currHead.y <= 0)
-            // if (playerPos.y <= 0)
             {
                 currHead.y = boardSizeY - 2;
-                // playerPos.y = boardSizeY - 2;
             }
             break;
         case DOWN:
             currHead.y++;
-            // playerPos.y++;
             if (currHead.y >= boardSizeY)
-            // if (playerPos.y >= boardSizeY)
             {
                 currHead.y = 1;
-                // playerPos.y = 1;
             }
             break;
         case LEFT:
             currHead.x--;
-            // playerPos.x--;
             if (currHead.x <= 0)
-            // if (playerPos.x <= 0)
             {
                 currHead.x = boardSizeX - 2;
-                // playerPos.x = boardSizeX - 2;
             }
             break;
         case RIGHT:
             currHead.x++;
-            // playerPos.x++;
             if (currHead.x >= boardSizeX)
-            // if (playerPos.x >= boardSizeX)
             {
                 currHead.x = 1;
-                // playerPos.x = 1;
             }
             break;
         case STOP:
@@ -189,32 +176,27 @@ void Player::movePlayer()
             break;        
     }
 
-    // playerPosList->insertHead(currHead);
-    // playerPosList->removeTail();
-
-    if (checkNormalFood(currHead)) 
+    if (checkNormalFood(currHead)) // INCREASES SNAKE LENGTH BY ONE AND INCREMEMENTS SCORE BY ONE IF SNAKE EATS REGULAR FOOD
     {
         playerPosList->insertHead(currHead);
         mainGameMechsRef->incrementScore(1);
         myFood->generateFood(playerPosList);
     }
-    else if (checkSpecialFood(currHead))
+    else if (checkSpecialFood(currHead)) // INCREASES SNAKE LENGTH BY ONE AND INCREMEMENTS SCORE BY THREE IF SNAKE EATS REGULAR FOOD
     {
         playerPosList->insertHead(currHead);
 
         mainGameMechsRef->incrementScore(3);
-        // mainGameMechsRef->incrementScore();
-        // mainGameMechsRef->incrementScore();
 
         myFood->generateFood(playerPosList);
     }
-    else
+    else // REMOVES TAIL AND ADDS HEAD LIKE NORMAL IF NO FOOD IS EATEN
     {
         playerPosList->insertHead(currHead);
         playerPosList->removeTail();
     }
 
-    if (checkSelfCollision())
+    if (checkSelfCollision()) // CHECKS IF THE SNAKE HAS EATEN ITSELF AND SETS FLAGS ACCORDINGLY
     {
         mainGameMechsRef->setLoseFlag();
         mainGameMechsRef->setExitTrue();

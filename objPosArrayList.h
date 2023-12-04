@@ -1,7 +1,7 @@
 #ifndef OBJPOS_ARRAYLIST_H
 #define OBJPOS_ARRAYLIST_H
 
-#define ARRAY_MAX_CAP 256
+#define ARRAY_MAX_CAP 256 // SETS MAX CAPACITY OF THE LIST TO 256 ELEMENTS
 
 #include "objPos.h"
 
@@ -13,8 +13,8 @@ class objPosArrayList
         int arrayCapacity;
 
     public:
-        objPosArrayList();
-        ~objPosArrayList();
+        objPosArrayList(); // DEFAULT CONSTRUCTOR 
+        ~objPosArrayList(); // DESTRUCTOR FOR ELEMENTS MADE ON THE HEAP IN CONSTRUCTOR
 
         int getSize();
         void insertHead(objPos thisPos);

@@ -28,11 +28,11 @@ class Food
         objPosArrayList* foodBucket;
 
     public:
-        Food(GameMechs* thisGMRef);
-        ~Food();
+        Food(GameMechs* thisGMRef); // DEFAULT CONSTRUCTOR TAKES IN REFERENCE TO GAME MECHS
+        ~Food(); // DESTRUCTOR FOR THE FOOD MADE ON THE HEAP
 
-        void generateFood(objPosArrayList* blockOff);
-        objPosArrayList* getFoodPos();
+        void generateFood(objPosArrayList* blockOff); // GENERATES FOOD AND TAKES IN REFERENCE TO SNAKE ARRAYLIST
+        objPosArrayList* getFoodPos(); // RETURNS THE POSITION AND SYMBOL OF EACH FOOD INSTANCE
 
         // void generateSpecialFood(objPosArrayList* playerPosList);
         // objPosArrayList *getFoodBucket();

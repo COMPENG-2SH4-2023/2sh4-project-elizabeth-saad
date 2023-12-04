@@ -12,10 +12,11 @@ using namespace std;
 
 // bool exitFlag;
 
-GameMechs* myGM;
-Player* myPlayer;
-Food* myFood;
+GameMechs* myGM; // REFERENCE TO GAME MECHS CLASS
+Player* myPlayer; // REFERENCE TO PLAYER CLASS
+Food* myFood; // REFERENCE TO FOOD CLASS
 
+// FUNCTION PROTOTYPES
 void Initialize(void);
 void GetInput(void);
 void RunLogic(void);
@@ -27,7 +28,7 @@ int main(void)
 {
     Initialize();
 
-    while(myGM->getExitFlagStatus() == false)  
+    while(myGM->getExitFlagStatus() == false) // CHECKS IF GAME IS STILL ON VIA GAME MECHS REFERENCE
     {
         GetInput();
         RunLogic();
@@ -43,17 +44,14 @@ void Initialize(void)
     MacUILib_init();
     MacUILib_clearScreen();
 
-    myGM = new GameMechs(30, 15);
-    myFood = new Food(myGM);
-    myPlayer = new Player(myGM, myFood);
+    myGM = new GameMechs(30, 15); // SETS GAME BOARDER
+    myFood = new Food(myGM); // CREATES NEW INSTANCE OF FOOD WITH REFERENCE TO GAME MECHS
+    myPlayer = new Player(myGM, myFood); // CREATES NEW INSTANCE OF PLAYER WITH REFERENCE TO GAME MECHS AND FOOD
 
     objPosArrayList* tempPos = myPlayer->getPlayerPos();
-    // myPlayer->getPlayerPos(tempPos);
 
     myFood->generateFood(myPlayer->getPlayerPos());
-    // myGM->generateFood(tempPos);
 
-    // exitFlag = false;
 }
 
 void GetInput(void)
@@ -75,28 +73,24 @@ void DrawScreen(void)
 
     bool drawn;
 
-    // objPos tempPos;
-    // myPlayer->getPlayerPos(tempPos);
-
+    // PLAYER / SNAKE POSITIONS
     objPosArrayList* playerBody = myPlayer->getPlayerPos();
     objPos tempBody;
 
+    // FOOD POSITIONS
     objPosArrayList* playerFood = myFood->getFoodPos();
     objPos tempFoodPos;
 
-    // myFood->getFoodPos(tempFoodPos);
-    // myGM->getFoodPos(tempFoodPos);
-
-    for (int i = 0; i < myGM->getBoardSizeY(); i++)
+    for (int i = 0; i < myGM->getBoardSizeY(); i++) // DRAWS EACH CORRESPONDING Y
     {
-        for (int j = 0; j < myGM->getBoardSizeX(); j++)
+        for (int j = 0; j < myGM->getBoardSizeX(); j++) // DRAWS EACH CORRESPONDING X
         {
             drawn = false;
             
-            for (int k = 0; k < playerBody->getSize(); k++)
+            for (int k = 0; k < playerBody->getSize(); k++) // DRAWS EACH CORRESPONDING PLAYER SEGMENT
             {
                 playerBody->getElement(tempBody, k);
-                if (tempBody.x == j && tempBody.y == i && i < (myGM->getBoardSizeY() - 1) && j != 0 && j < (myGM->getBoardSizeX() - 1)) // i < (myGM->getBoardSizeY() - 1) && j != 0 && j < (myGM->getBoardSizeX() - 1)
+                if (tempBody.x == j && tempBody.y == i && i < (myGM->getBoardSizeY() - 1) && j != 0 && j < (myGM->getBoardSizeX() - 1)) // PRINTS PLAYER CONSIDERING WRAP AROUND
                 {
                     MacUILib_printf("%c", tempBody.symbol);
                     drawn = true;
@@ -104,11 +98,11 @@ void DrawScreen(void)
                 }
             }
 
-            for (int m = 0; m < playerFood->getSize(); m++)
+            for (int m = 0; m < playerFood->getSize(); m++) // PRINTS FOODS
             {
                 playerFood->getElement(tempFoodPos, m);
 
-                if (tempFoodPos.x == j && tempFoodPos.y == i && i < (myGM->getBoardSizeY() - 1) && j != 0 && j < (myGM->getBoardSizeX() - 1)) ///
+                if (tempFoodPos.x == j && tempFoodPos.y == i && i < (myGM->getBoardSizeY() - 1) && j != 0 && j < (myGM->getBoardSizeX() - 1)) // ENSURES PRINTED IN BOARDER 
                 {
                     MacUILib_printf("%c", tempFoodPos.symbol);
                     drawn = true;
@@ -129,24 +123,19 @@ void DrawScreen(void)
             {
                 MacUILib_printf("%c", tempFoodPos.symbol);
             }
-            // else if (j == tempPos.x && i == tempPos.y)
-            // {
-            //     MacUILib_printf("%c", tempPos.symbol);
-            // }
             else if (j == tempFoodPos.x && i == tempFoodPos.y)
             {
                 MacUILib_printf("%c", tempFoodPos.symbol);
             }
             else
             {
-                MacUILib_printf("%c", 32);   
+                MacUILib_printf("%c", 32); // PRINTS BLANK SPACE
             }
         }
         MacUILib_printf("\n");   
     }
 
-    // MacUILib_printf("Score: %d\n Player Pos: <%d, %d>\n", myGM->getScore(), tempPos.x, tempPos.y);
-    MacUILib_printf("Score: %d\n", myGM->getScore());
+    MacUILib_printf("Score: %d\n", myGM->getScore()); // PRINTS SCORE
 }
 
 void LoopDelay(void)
@@ -162,6 +151,8 @@ void CleanUp(void)
     
     MacUILib_uninit();
 
+    // DELETES PRE-MADE REFERENCES TO OTHER CLASSES
+    // STOPS MEMORY LEAK
     delete myGM;
     delete myFood;
     delete myPlayer;

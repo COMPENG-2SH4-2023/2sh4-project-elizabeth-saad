@@ -20,8 +20,7 @@ class Player
         Player(GameMechs* thisGMRef, Food* thisFood);
         ~Player();
 
-        objPosArrayList* getPlayerPos(); // Upgrade this in iteration 3.
-        // void getPlayerPos(objPos &returnPos);        
+        objPosArrayList* getPlayerPos();
         void updatePlayerDir();
         void movePlayer();
 
@@ -31,8 +30,7 @@ class Player
         bool checkSpecialFood(objPos currHead);
 
     private:
-        objPosArrayList *playerPosList; // Upgrade this in iteration 3.       
-        // objPos playerPos;
+        objPosArrayList *playerPosList;      
         enum Dir myDir;
 
         Food* myFood;

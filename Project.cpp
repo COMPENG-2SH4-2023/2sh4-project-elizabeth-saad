@@ -81,8 +81,10 @@ void DrawScreen(void)
     objPosArrayList* playerBody = myPlayer->getPlayerPos();
     objPos tempBody;
 
+    objPosArrayList* playerFood = myFood->getFoodPos();
     objPos tempFoodPos;
-    myFood->getFoodPos(tempFoodPos);
+
+    // myFood->getFoodPos(tempFoodPos);
     // myGM->getFoodPos(tempFoodPos);
 
     for (int i = 0; i < myGM->getBoardSizeY(); i++)
@@ -94,9 +96,21 @@ void DrawScreen(void)
             for (int k = 0; k < playerBody->getSize(); k++)
             {
                 playerBody->getElement(tempBody, k);
-                if (tempBody.x == j && tempBody.y == i && i < (myGM->getBoardSizeY() - 1) && j != 0 && j < (myGM->getBoardSizeX() - 1))
+                if (tempBody.x == j && tempBody.y == i && i < (myGM->getBoardSizeY() - 1) && j != 0 && j < (myGM->getBoardSizeX() - 1)) // i < (myGM->getBoardSizeY() - 1) && j != 0 && j < (myGM->getBoardSizeX() - 1)
                 {
                     MacUILib_printf("%c", tempBody.symbol);
+                    drawn = true;
+                    break;
+                }
+            }
+
+            for (int m = 0; m < playerFood->getSize(); m++)
+            {
+                playerFood->getElement(tempFoodPos, m);
+
+                if (tempFoodPos.x == j && tempFoodPos.y == i && i < (myGM->getBoardSizeY() - 1) && j != 0 && j < (myGM->getBoardSizeX() - 1)) ///
+                {
+                    MacUILib_printf("%c", tempFoodPos.symbol);
                     drawn = true;
                     break;
                 }
@@ -111,7 +125,8 @@ void DrawScreen(void)
             {
                 MacUILib_printf("%c", '#');
             }
-            else if (j == tempFoodPos.x && i == tempFoodPos.y) {
+            else if (j == tempFoodPos.x && i == tempFoodPos.y) 
+            {
                 MacUILib_printf("%c", tempFoodPos.symbol);
             }
             // else if (j == tempPos.x && i == tempPos.y)

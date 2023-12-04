@@ -27,6 +27,9 @@ class Player
 
         bool checkSelfCollision();
 
+        bool checkNormalFood(objPos currHead);
+        bool checkSpecialFood(objPos currHead);
+
     private:
         objPosArrayList *playerPosList; // Upgrade this in iteration 3.       
         // objPos playerPos;

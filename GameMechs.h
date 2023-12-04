@@ -23,8 +23,6 @@ class GameMechs
 
         objPos foodPos;
 
-        objPos foodPos;
-
         bool loseFlag;
         int score;
         
@@ -45,7 +43,7 @@ class GameMechs
         void setInput(char this_input);
         void clearInput();
 
-        void incrementScore();
+        void incrementScore(int num);
 
         int getBoardSizeX();
         int getBoardSizeY();

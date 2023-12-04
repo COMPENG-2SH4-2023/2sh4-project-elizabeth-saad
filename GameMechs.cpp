@@ -39,6 +39,12 @@ char GameMechs::getInput()
     {
         input = MacUILib_getChar();
     }
+
+    // if (input == 27)
+    // {
+    //     exitFlag = true;
+    // }
+
     return (input);
 }
 
@@ -82,9 +88,9 @@ void GameMechs::clearInput()
     input = 0;
 }
 
-void GameMechs::incrementScore()
+void GameMechs::incrementScore(int num)
 {
-    score += 1;
+    score += num;
 }
 
 void GameMechs::printMessage()

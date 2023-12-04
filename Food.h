@@ -25,12 +25,17 @@ class Food
 
         GameMechs* thisGM;
 
+        objPosArrayList* foodBucket;
+
     public:
         Food(GameMechs* thisGMRef);
         ~Food();
 
         void generateFood(objPosArrayList* blockOff);
-        void getFoodPos(objPos &returnPos);
+        objPosArrayList* getFoodPos();
+
+        // void generateSpecialFood(objPosArrayList* playerPosList);
+        // objPosArrayList *getFoodBucket();
 };
 
 #endif

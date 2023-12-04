@@ -94,14 +94,50 @@ bool Player::checkSelfCollision()
     return false;
 }
 
+bool Player::checkSpecialFood(objPos currHead)
+{
+    objPosArrayList* foodBucket = myFood->getFoodPos();
+    objPos specialFoodPos;
+
+    for (int i = 0; i < foodBucket->getSize(); i++)
+    {
+        foodBucket->getElement(specialFoodPos, i);
+        
+        if (specialFoodPos.isPosEqual(&currHead) && specialFoodPos.symbol == 'S')
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool Player::checkNormalFood(objPos currHead)
+{
+    objPosArrayList* foodBucket = myFood->getFoodPos();
+    objPos specialFoodPos;
+
+    for (int i = 0; i < foodBucket->getSize(); i++)
+    {
+        foodBucket->getElement(specialFoodPos, i);
+        
+        if (specialFoodPos.isPosEqual(&currHead) && specialFoodPos.symbol == 'X')
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 void Player::movePlayer()
 {
     // PPA3 Finite State Machine logic
     objPos currHead;
     playerPosList->getHeadElement(currHead);
 
-    objPos food;
-    myFood->getFoodPos(food);
+    // objPos food;
+    // myFood->getFoodPos(food);
     
     int boardSizeX = mainGameMechsRef->getBoardSizeX();
     int boardSizeY = mainGameMechsRef->getBoardSizeY();
@@ -156,10 +192,20 @@ void Player::movePlayer()
     // playerPosList->insertHead(currHead);
     // playerPosList->removeTail();
 
-    if (food.isPosEqual(&currHead)) 
+    if (checkNormalFood(currHead)) 
     {
         playerPosList->insertHead(currHead);
-        mainGameMechsRef->incrementScore();
+        mainGameMechsRef->incrementScore(1);
+        myFood->generateFood(playerPosList);
+    }
+    else if (checkSpecialFood(currHead))
+    {
+        playerPosList->insertHead(currHead);
+
+        mainGameMechsRef->incrementScore(3);
+        // mainGameMechsRef->incrementScore();
+        // mainGameMechsRef->incrementScore();
+
         myFood->generateFood(playerPosList);
     }
     else

@@ -4,7 +4,7 @@ objPos::objPos()
 {
     x = 0;
     y = 0;
-    symbol = 0; //NULL
+    symbol = 0;
 }
 
 objPos::objPos(objPos &o)
@@ -13,7 +13,6 @@ objPos::objPos(objPos &o)
     y = o.y;
     symbol = o.symbol;
 }
-
 
 objPos::objPos(int xPos, int yPos, char sym)
 {
